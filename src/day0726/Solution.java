@@ -2,9 +2,8 @@ package day0726;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @hurusea
@@ -91,6 +90,7 @@ public class Solution {
 
     /**
      * 可以删除一个字符，判断是否能构成回文字符串。
+     *
      * @param s
      * @return
      */
@@ -129,6 +129,7 @@ public class Solution {
 
     /**
      * 归并两个有序数组 把归并结果存到第一个数组上
+     *
      * @param nums1
      * @param m
      * @param nums2
@@ -169,6 +170,7 @@ public class Solution {
     /**
      * 删除 s 中的一些字符，使得它构成字符串列表 d 中的一个字符串，
      * 找出能构成的最长字符串。如果有多个相同长度的结果，返回字典序的最小字符串
+     *
      * @param s
      * @param d
      * @return
@@ -196,5 +198,103 @@ public class Solution {
             i++;
         }
         return j == target.length();
+    }
+
+    /**
+     * 返回最大的K个元素
+     * @param nums 传入数组
+     * @param k 个数
+     */
+    public void topK(int[] nums, int k) {
+//        Comparator<Integer> cmp = new Comparator<>() {
+//            @Override
+//            public int compare(Integer e1, Integer e2) {
+//                return e1 - e2;
+//                return e2 - e1;
+//            }
+//        };
+
+        //利用优先队列维护大顶堆
+        //优先队列默认升序排序，最开始pop的是小元素
+        //重写比较器，使得优先队列降序排列，最开始pop的是大元素
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int i = 0; i < nums.length; i++) {
+            pq.add(nums[i]);
+            if (pq.size() > k) {
+                pq.poll();
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            System.out.print(pq.poll()+" ");
+        }
+
+    }
+
+    @Test
+    public void testTopK() {
+        int[] numbers = {2, 7, 11, 15, 6, 1, 5, 3};
+        topK(numbers, 3);
+
+    }
+
+    /**
+     * 出现频率最多的 k 个元素
+     * @param nums
+     * @param k
+     * @return
+     */
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+
+        List<Integer>[] buckets = new ArrayList[nums.length + 1];
+        for (Integer key : map.keySet()) {
+            Integer frequency = map.get(key);
+            if (buckets[frequency] == null) {
+                buckets[frequency] = new ArrayList<>();
+            }
+            buckets[frequency].add(key);
+        }
+
+        List<Integer> topK = new ArrayList<>();
+        for (int i = buckets.length - 1; i >= 0 && topK.size() < k; i--) {
+            if (buckets[i] == null) {
+                continue;
+            }
+            if (buckets[i].size() <= (k - topK.size())) {
+                topK.addAll(buckets[i]);
+            } else {
+                topK.addAll(buckets[i].subList(0, k - topK.size()));
+            }
+        }
+        return topK;
+    }
+
+    @Test
+    public void test1() throws IOException {
+        // 直接打开应用程序
+        Runtime.getRuntime().exec("C:/Users/liqiang/Desktop/开机后点它.bat"); // 打开一个批处理文件
+        Runtime.getRuntime().exec("E:/酷狗/KGMusic/KuGou.exe"); // 打开酷狗
+
+        /******** 可以通过cmd命令打开软件或者是做其他 *****/
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k start E:/酷狗/KGMusic/KuGou.exe"); // 通过cmd窗口执行命令
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k start E:/php/Test/第一个html/界面.html"); // 通过cmd命令打开一个网页
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k mkdir C:\\Users\\liqiang\\Desktop\\java键的1"); // 通过cmd创建目录用两个反斜杠
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k mkdir C:\\Users\\liqiang\\Desktop\\java键的2"); // 通过cmd创建目录用两个反斜杠
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /c calc ");// 通过cmd打开计算器
+    }
+
+    @Test
+    public void test2() throws IOException {
+        /******** 可以通过cmd命令打开软件或者是做其他 *****/
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /c osk");// 通过屏幕软键盘
+    }
+
+    @Test
+    public void test3() throws IOException {
+        /******** 可以通过cmd命令打开软件或者是做其他 *****/
+        Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /c SnippingTool ");
     }
 }
