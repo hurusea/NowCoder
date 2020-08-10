@@ -9,13 +9,19 @@ import java.util.Scanner;
 public class Main1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int k = scanner.nextInt();
-        int[][] res = new int[n][];
-        for (int i = 0; i < n; i++) {
-            int num = scanner.nextInt();
-
+        int num = 1024 - scanner.nextInt();
+        int div = 64;
+        int yushu = -1;
+        int count = 0;
+        int ans = 0;
+        while (yushu != 0) {
+            count = num / div;
+            num -= count * div;
+            ans += count;
+            yushu = num % div;
+            div /= 4;
         }
+        System.out.println(ans);
     }
 
 }

@@ -7,18 +7,34 @@ import java.util.Scanner;
  * @create2020-04-26 19:19
  */
 public class Main2 {
-    private static final int MAX = 1005;
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
-            double n = sc.nextDouble();
-            int m = sc.nextInt();
-            double ans = 0;
-            for (int i = 0; i < m; i++) {
-                ans += n;
-                n = Math.sqrt(n);
-            }
-            System.out.printf("%.2f\n", ans);
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i]=in.nextInt();
         }
+        int ans = 0;
+        int temp = 0;
+        int flag = -1;
+        int sum = 0;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < n - i + 1; j++) {
+                for (int k = j; k < j+i; k++) {
+                    flag *= -1;
+                    sum += flag * nums[k];
+                }
+                if (temp < sum) {
+                    temp = sum;
+                }
+                sum = 0;
+                flag = -1;
+            }
+            if (ans < temp) {
+                ans = temp;
+            }
+        }
+        System.out.println(ans);
     }
 }
