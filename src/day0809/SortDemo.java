@@ -11,12 +11,13 @@ import java.util.Arrays;
 public class SortDemo {
     @Test
     public void testSort() {
-        int[] nums = new int[5];
-        for (int i = 0; i < 5; i++) {
+        int[] nums = new int[15];
+        for (int i = 0; i < 15; i++) {
             nums[i] = (int) (Math.random() * 10);
         }
         System.out.println(Arrays.toString(nums));
-        quickSort(nums, 0, nums.length - 1);
+//        quickSort(nums, 0, nums.length - 1);
+        MergeSort(nums);
         System.out.println(Arrays.toString(nums));
     }
 
