@@ -8,11 +8,11 @@ public class ABC_Lock {
     static class ThreadA extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 10;) {
+            for (int i = 0; i < 5;) {
                 try {
                     lock.lock();
                     while (state % 3 == 0) {// 多线程并发，不能用if，必须用循环测试等待条件，避免虚假唤醒
-                        System.out.print("A");
+                        System.out.println(Thread.currentThread().getName()+"===========A"+"  第"+i+"次循环");
                         state++;
                         i++;
                     }
@@ -25,11 +25,11 @@ public class ABC_Lock {
     static class ThreadB extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 10;) {
+            for (int i = 0; i < 5;) {
                 try {
                     lock.lock();
                     while (state % 3 == 1) {
-                        System.out.print("B");
+                        System.out.println(Thread.currentThread().getName()+"===========B"+"  第"+i+"次循环");
                         state++;
                         i++;
                     }
@@ -42,11 +42,11 @@ public class ABC_Lock {
     static class ThreadC extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 10;) {
+            for (int i = 0; i < 5;) {
                 try {
                     lock.lock();
                     while (state % 3 == 2) {
-                        System.out.print("C");
+                        System.out.println(Thread.currentThread().getName()+"===========C"+"  第"+i+"次循环");
                         state++;
                         i++;
                     }
@@ -57,8 +57,8 @@ public class ABC_Lock {
         }
     }
     public static void main(String[] args) {
-        new ThreadA().start();
-        new ThreadB().start();
-        new ThreadC().start();
+        new Thread(new ThreadA(),"ThreadA").start();
+        new Thread(new ThreadB(),"ThreadB").start();
+        new Thread(new ThreadC(),"ThreadC").start();
     }
 }
