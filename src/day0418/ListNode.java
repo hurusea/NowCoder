@@ -5,10 +5,10 @@ package day0418;
  * @create2020-04-18 12:52
  */
 public class ListNode {
-    int val;
-    ListNode next;
+    public int val;
+    public ListNode next;
 
-    ListNode(int x) {
+    public ListNode(int x) {
         val = x;
     }
 }
