@@ -15,9 +15,12 @@ public class ThreadTest {
         Thread t2 = new t2();
         t2.start();
         FutureTask<Integer> futureTask = new FutureTask<>(new t5());
+        FutureTask<Integer> task = new FutureTask<>(new t5());
+        Thread taskThread = new Thread(task);
         new Thread(futureTask).start();
         Integer integer = futureTask.get();
         System.out.println(integer);
+        new t3().run();
 
     }
 }
@@ -55,7 +58,7 @@ class t5 implements Callable<Integer>{
 
     @Override
     public Integer call() throws Exception {
-        int res = 1 / 10;
+        int res = 20 / 10;
         System.out.println("t5");
         return res;
     }
