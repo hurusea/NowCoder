@@ -1,7 +1,6 @@
 package tencent;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @hurusea
@@ -9,65 +8,65 @@ import java.util.Scanner;
  */
 public class Main3 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int k = scanner.nextInt();
-        int[][] res = new int[n][];
-        int max=0;
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        in.nextLine();
+        HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            int num = scanner.nextInt();
-            res[i] = new int[num];
-            if (num > max) {
-                max=num;
-            }
-            for (int j = num-1; j >=0; j--) {
-                res[i][j]=scanner.nextInt();
+            String s = in.nextLine();
+            if (map.containsKey(s)) {
+                int v = map.get(s);
+                map.put(s, v + 1);
+            } else {
+                map.put(s, 1);
             }
         }
-//        for (int i = 0; i < res.length; i++) {
-//            for (int j = 0; j < res[i].length; j++) {
-//                System.out.print(res[i][j]+" ");
-//            }
-//            System.out.println();
-//        }
-        if (n == 1 && k == 1) {
-            System.out.println(res[0][0]);
-        } else {
-            findMax(res, k, n, max);
+        List<Node> list1 = new ArrayList<>();
+        List<Node> list2 = new ArrayList<>();
+        for (String s : map.keySet()) {
+            list1.add(new Node(map.get(s), s));
+            list2.add(new Node(map.get(s), s));
+        }
+        list1.sort(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                if (o1.num != o2.num) {
+                    return o2.num - o1.num;
+                } else {
+                    if (o1.s.compareTo(o2.s) > 0) {
+                        return 1;
+                    } else return -1;
+                }
+            }
+        });
+        list2.sort(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                if (o1.num != o2.num) {
+                    return o2.num - o1.num;
+                } else {
+                    if (o1.s.compareTo(o2.s) < 0) {
+                        return 1;
+                    } else return -1;
+                }
+            }
+        });
+        for (int i = 0; i < k; i++) {
+            System.out.println(list1.get(i).s + " " + String.valueOf(list1.get(i).num));
+        }
+        for (int i = list2.size() - 1; i >= list2.size() - k; i--) {
+            System.out.println(list2.get(i).s + " " + String.valueOf(list2.get(i).num));
         }
     }
+}
 
-    private static void findMax(int[][] res,int k,int n,int max) {
-//        int[] ans = new int[k];
-//        int[][] copy = new int[max][n];
-//        for (int i = 0; i < res.length; i++) {
-//            for (int j = 0; j < res[i].length; j++) {
-//                copy[j][i] = res[i][j];
-//            }
-//        }
-//        for (int i = 0; i < max; i++) {
-//            Arrays.sort(copy[i]);
-//        }
-//        int count=0;
-//        for (int i = 0; i < 5; i++) {
-//            for (int j = 0; j < copy.length; j++) {
-//                for (int l = 0; l < copy[i].length; l++) {
-//                    ans[count] = copy[i][j];
-//                }
-//            }
-//        }
-        int num = n*max;
-        int[] ans2 = new int[num];
-        int s = 0;
-        for (int i = 0; i < res.length; i++) {
-            for (int j = 0; j < res[i].length; j++) {
-                ans2[s] = res[i][j];
-                s++;
-            }
-        }
-        Arrays.sort(ans2);
-        for (int i = ans2.length-1; i >ans2.length-6; i--) {
-            System.out.print(ans2[i]+" ");
-        }
+class Node {
+    int num;
+    String s;
+
+    Node(int num, String s) {
+        this.num = num;
+        this.s = s;
     }
 }

@@ -1,10 +1,10 @@
-package tencent;
+package day0906;
 
 import java.util.Scanner;
 
 /**
  * @hurusea
- * @create2020-04-26 19:19
+ * @create2020-09-05 14:54
  */
 public class Main2 {
     public static void main(String[] args) {
@@ -16,5 +16,4 @@ public class Main2 {
             nums[i] = in.nextInt();
         }
     }
-
 }

@@ -1,18 +1,41 @@
 package day0820;
 
-/**
- * @hurusea
- * @create2020-08-20 15:14
- */
+class Node<K, V> {
+    K key;
+    V value;
+    Node<K, V> next;
+
+    Node(K key, V value, Node<K, V> next) {
+        super();
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+
+    K getKey() {
+        return this.key;
+    }
+
+    V getValue() {
+        return this.value;
+    }
+
+    V setValue(V value) {
+        V oldValue = this.value;
+        this.value = value;
+        return oldValue;
+    }
+}
+
 public class SelfMap<K, V> {
     //链表的数组
     Node<K, V>[] table = null;
     //存储数据个数
     int size;
     //负载因子
-    float DEFAULT_LOAD_FACTOR = 0.5f;
+    private static float DEFAULT_LOAD_FACTOR = 0.75f;
     //初始大小
-    static int DEFAULT_INITIAL_CAPACITY = 10;
+    private static int DEFAULT_INITIAL_CAPACITY = 1 << 4;
 
     public V put(K key, V value) {
         if (table == null) {
@@ -46,19 +69,17 @@ public class SelfMap<K, V> {
                 }
                 newNode = newNode.next;
             }
-
         }
         table[index] = node;
         return null;
     }
-
 
     public V get(K k) {
         Node<K, V> node = getNode(table[getIndex(k, DEFAULT_INITIAL_CAPACITY)], k);
         return node == null ? null : node.value;
     }
 
-    public Node<K, V> getNode(Node<K, V> node, K k) {
+    private Node<K, V> getNode(Node<K, V> node, K k) {
         while (node != null) {
             if (node.getKey().equals(k)) {
                 return node;
@@ -68,17 +89,40 @@ public class SelfMap<K, V> {
         return null;
     }
 
+    private Node<K, V> remove(K key) {
+        int hash = (key == null) ? 0 : hash(key);
+        int i = getIndex(key, table.length);
+        Node<K, V> prev = table[i]; //当前判断节点的上一个节点
+        Node<K, V> e = prev; //当前判断节点
+        while (e != null) {
+            Node<K, V> next = e.next; //当前判断节点的下一个节点
+            Object k;
+            if (hash(e.key) == hash &&
+                    ((k = e.key) == key || (key != null && key.equals(k)))) { //找到key对应的节点
+                size--;
+                if (prev == e)
+                    table[i] = next;
+                else
+                    prev.next = next;
+                return e;
+            }
+            prev = e;
+            e = next;
+        }
+        return e;
+    }
 
     public int size() {
         return size;
     }
 
-    public int getIndex(K k, int length) {
-        //拿到key的hashCode
-        int hashCode = k.hashCode();
-        //计算下标位置
-        int index = hashCode % length;
-        return index;
+    private int getIndex(K key, int length) {
+        return hash(key) & (length - 1);
+    }
+
+    private int hash(K key) {
+        int h = 0;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >> 16);
     }
 
     private void resize() {
@@ -109,43 +153,13 @@ public class SelfMap<K, V> {
     }
 
     public static void main(String[] args) {
-        SpecialMap<String, String> map = new SpecialMap<>();
-        map.put("name", "hurusea");
-        map.put("age", "24");
-        map.put("sex", "male");
-        System.out.println(map.get("age"));
-        System.out.println(map.get("sex"));
+        SelfMap<String, String> map = new SelfMap<>();
+        map.put("name", "hello");
         System.out.println(map.get("name"));
+        map.remove("name");
+        if (map.get("name") == null) {
+            System.out.println("删除成功");
+        }
 
-    }
-
-}
-
-class MapNode<K, V> {
-    public K key;
-
-    public V value;
-
-    public Node<K, V> next;
-
-    public MapNode(K key, V value, Node<K, V> next) {
-        super();
-        this.key = key;
-        this.value = value;
-        this.next = next;
-    }
-
-    public K getKey() {
-        return this.key;
-    }
-
-    public V getValue() {
-        return this.value;
-    }
-
-    public V setValue(V value) {
-        V oldValue = this.value;
-        this.value = value;
-        return oldValue;
     }
 }

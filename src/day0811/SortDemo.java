@@ -15,10 +15,10 @@ public class SortDemo {
         for (int i = 0; i < 15; i++) {
             nums[i] = (int) (Math.random() * 10);
         }
-        System.out.println(Arrays.toString(nums));
-//        quickSort(nums, 0, nums.length - 1);
+//        System.out.println(Arrays.toString(nums));
+        quickSort(nums, 0, nums.length - 1);
         int[] res = mergeSort(nums);
-        System.out.println(Arrays.toString(res));
+        System.out.println(Arrays.toString(nums));
     }
 
     public void quickSort(int[] nums, int start, int end) {

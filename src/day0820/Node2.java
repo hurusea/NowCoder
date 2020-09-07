@@ -4,14 +4,14 @@ package day0820;
  * @hurusea
  * @create2020-08-20 15:02
  */
-public class Node<K, V> {
+public class Node2<K, V> {
     public K key;
 
     public V value;
 
-    public Node<K, V> next;
+    public Node2<K, V> next;
 
-    public Node(K key, V value, Node<K, V> next) {
+    public Node2(K key, V value, Node2<K, V> next) {
         super();
         this.key = key;
         this.value = value;

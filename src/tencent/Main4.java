@@ -1,5 +1,6 @@
 package tencent;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -8,17 +9,21 @@ import java.util.Scanner;
  */
 public class Main4 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int T = scanner.nextInt();
-        for (int i = 0; i < T; i++) {
-            int Q = scanner.nextInt();
-            if (Q < 0) {
-                System.out.println("No solution");
-            } else if (Q == 0) {
-                System.out.println(1);
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = in.nextInt();
+        }
+        Arrays.sort(nums);
+        int midLeft = nums[n / 2 - 1];
+        int midRight = nums[n / 2];
+        for (int i = 0; i < n; i++) {
+            int temp = nums[i];
+            if (temp <= midLeft) {
+                System.out.println(midRight);
             } else {
-                long n = Q*5;
-                System.out.println(n);
+                System.out.println(midLeft);
             }
         }
     }
