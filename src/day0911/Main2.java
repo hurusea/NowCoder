@@ -8,6 +8,23 @@ import java.util.Scanner;
  */
 public class Main2 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        B b = new B();
+    }
+}
+
+class A {
+    static int anInt = 0;
+
+    static void function() {
+        System.out.println(anInt);
+    }
+    public A() {
+        System.out.println("A");
+    }
+}
+
+class B extends A {
+    public B() {
+        System.out.println("B");
     }
 }
